@@ -62,10 +62,10 @@ def ev_make_market_share(file_path):
                 data["Registrations"],
                 labels=data["Make"],
                 colors=pie_colors,
-                autopct=lambda p: f'{p:.1f}%' if p >= 2 else '',
+                autopct=lambda p: f'{p:.1f}%' if p >= 3 else '',
                 pctdistance=0.75,
                 startangle=140)
-            plt.title(f"EV Registrations by Make for {year} for {gvwr}")
+            plt.title(f"EV Registrations by Make for {year} for {gvwr}", pad=30)
             plt.axis('equal')
             plt.show()
 
