@@ -53,6 +53,7 @@ def ev_make_market_share(file_path):
 
             if data.empty:
                 print(f"No data available for {year} and {gvwr}.")
+                continue
             
             # Get colors for the makes in this chart
             pie_colors = [make_colors[make] for make in data["Make"]]
