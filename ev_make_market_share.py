@@ -57,15 +57,35 @@ def ev_make_market_share(file_path):
             # Get colors for the makes in this chart
             pie_colors = [make_colors[make] for make in data["Make"]]
 
-            plt.figure(figsize=(8, 8))
-            plt.pie(
+            plt.figure(figsize=(8, 8))            
+            wedges, texts, autotexts = plt.pie(
                 data["Registrations"],
                 labels=data["Make"],
                 colors=pie_colors,
                 autopct=lambda p: f'{p:.1f}%' if p >= 3 else '',
-                pctdistance=0.75,
                 startangle=140)
-            plt.title(f"EV Registrations by Make for {year} for {gvwr}", pad=30)
+
+            # Create a legend for the small slices
+            small_mask = data["Registrations"] / data["Registrations"].sum() < 0.03
+
+            small_wedges = [w for w, small in zip(wedges, small_mask) if small]
+
+            small_labels = [
+                f"{make} ({reg/data['Registrations'].sum():.1%})"
+                for make, reg, small in zip(
+                    data["Make"],
+                    data["Registrations"],
+                    small_mask)
+                if small]
+
+            plt.legend(
+                small_wedges,
+                small_labels,
+                title="Smaller Makes",
+                loc="center left",
+                bbox_to_anchor=(0.85, 0.5))
+
+            plt.title(f"EV Registrations by Make for {year} for {gvwr} Vehicles", pad=30)
             plt.axis('equal')
             plt.show()
 
